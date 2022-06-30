@@ -9,25 +9,40 @@
       <h4 class="p-3 font-weight-bold text-grey">
         Kategori
       </h4>
+      <!-- mengatur pilihan filter kategori-->
       <ul class="list-group border-0 categories_list">
-        <li class="list-group-item border-0 p-0 selected">
-          <a href="" class="btn btn-block text-left">Semua</a>
+        <li {% if not kategori_diminta %}
+          class="list-group-item border-0 p-0 selected"
+        {% else %}
+          class="list-group-item border-0 p-0 unselected"
+        {% endif %}>
+          <a href="{% url 'listings:daftar_produk' %}" class="btn btn-block text-left">Semua</a>
         </li>
         {% for kategori in kategoris %}
-          <li class="list-group-item border-0 p-0 unselected">
-            <a href="" class="btn btn-block text-left">
+          <li 
+            {% if kategori.slug == kategori_diminta.slug %}
+              class="list-group-item border-0 p-0 selected"
+            {% else %}
+              class="list-group-item border-0 p-0 unselected">
+            {% endif %}
+            <a href="{{ kategori.get_absolute_url }}" class="btn btn-block text-left">
               {{ kategori.nama }}
             </a>
           </li>
         {% endfor %}  
       </ul>
+      <!-- end of mengatur pilihan filter kategori-->
     </div>
   </div>
   <div class="col-lg-6">
     <div class="card shadow-custom border-0 mb-4">
       <div class="card-body text-center">
         <h2 class="font-weight-bold text-grey">
-          Produk Kami
+          {% if kategori_diminta %}
+            {{ kategori_diminta.nama }}
+          {% else %}
+            Produk Kami
+          {% endif %}
         </h2>
         <div class="bottom_line"></div>
       </div>
@@ -38,11 +53,11 @@
         <div class="card product">
           <div class="item">
             <div class="item-image">
-              <img src="{{ produk.image.url }}" alt="" class="fas fa-search-plus">
+              <img src="{{ produk.gambar.url }}" alt="{{ produk.nama}}" class="fas fa-search-plus">
             </div>
             <div class="item-text">
               <div class="item-text-wrap">
-                <a href="" class="h2 text-white text-decoration-none">
+                <a href="{{ produk.get_absolute_url }}" class="h2 text-white text-decoration-none">
                   <i class="fas fa-search-plus"></i>
                 </a>
               </div>

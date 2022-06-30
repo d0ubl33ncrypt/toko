@@ -1,6 +1,6 @@
-from distutils.command.upload import upload
 from django.db import models
-
+from django.urls import reverse
+import os
 # Create your models here.
 class Kategori(models.Model):
     """
@@ -27,6 +27,10 @@ class Kategori(models.Model):
     def __str__(self):
         
         return self.nama
+    
+    def get_absolute_url(self):
+        return reverse("listings:produk_berdasarkan_kategori", args=[self.slug])
+    
 
 class Produk(models.Model):
     """
@@ -41,15 +45,22 @@ class Produk(models.Model):
     harga = harga barang
     ketersediaan = ada atau tidaknya barang
     """
+    def lokasi_ganti_nama(instance,nama_file):
+        upload_to = 'produk/'
+        ext=nama_file.split('.')[-1]
+
+        nama_file = '{}.{}'.format(instance.slug,ext)
+
+        return os.path.join(upload_to,nama_file)
 
     kategori = models.ForeignKey(
         Kategori, related_name='produks',
         on_delete=models.CASCADE)
     nama = models.CharField(max_length=100,unique=True)
     slug = models.SlugField(max_length=120, unique=True)
-    gambar = models.ImageField(upload_to='produks/')
+    gambar = models.ImageField(upload_to=lokasi_ganti_nama)
     deskripsi =models.TextField()
-    harga = models.DecimalField(max_digits=15, decimal_places=2)
+    harga = models.DecimalField(max_digits=15, decimal_places=0)
     ketersediaan = models.BooleanField(default=True)
 
     class Meta:
@@ -58,3 +69,7 @@ class Produk(models.Model):
         """
         ordering = ('-nama',)
         verbose_name_plural = 'Produk'
+    
+    def get_absolute_url(self):
+        return reverse("listings:detail_produk", args=[self.kategori.slug, self.slug])
+    

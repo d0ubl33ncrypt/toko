@@ -84,7 +84,8 @@ DATABASES = {
         'NAME' : 'toko' ,
         'USER' : 'tokoadmin' ,
         'PASSWORD' : 'lugila9090' ,
-        'HOST' : 'localhost'
+        'HOST' : 'localhost',
+
     }
 }
 
