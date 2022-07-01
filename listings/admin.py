@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import Kategori, Produk
+from .models import Kategori, Produk, Ulasan
 # Register your models here.
+
+class UlasanInline(admin.TabularInline):
+    model = Ulasan
 
 @admin.register(Kategori)
 class KategoriAdmin(admin.ModelAdmin):
@@ -19,5 +22,7 @@ class ProdukAdmin(admin.ModelAdmin):
     list_filter = ('kategori','ketersediaan')
     list_editable = ('harga','ketersediaan')
     prepopulated_fields = {'slug':('nama',)}
+
+    inlines = [UlasanInline]
     
 
