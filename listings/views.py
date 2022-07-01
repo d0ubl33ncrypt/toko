@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Kategori,Produk, Ulasan
 from .forms import FormUlasan
+from cart.forms import FormTambahProdukKeKeranjang
 
 # Create your views here.
 def daftar_produk(request,kategori_slug=None):
@@ -56,7 +57,10 @@ def detail_produk(request,kategori_slug,produk_slug):
 
     else:
         form_ulasan = FormUlasan()
+        form_produk_keranjang = FormTambahProdukKeKeranjang()
 
     return render(request,'produk/detail.html',{
-        'produk':produk,'form_ulasan': form_ulasan})
+        'produk':produk,'form_ulasan': form_ulasan,
+        'form_produk_keranjang':form_produk_keranjang}
+        )
 

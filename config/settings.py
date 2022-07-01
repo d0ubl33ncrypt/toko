@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
 
     #app
-    'listings.apps.ListingsConfig'
+    'listings.apps.ListingsConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CART_ID = 'cart'
 # try :
 #     from .local_settings import *
 # except ImportError:
