@@ -56,11 +56,13 @@
           {{ produk.harga }}
         </span>
       </div>
-      <div class="cart-item-col-6 col-sm-5 col-lg-2 align-self-center">
-        <form>
+      <div class="cart-item-col-6 col-sm-4 col-lg-2 align-self-center">
+        <form action="{% url 'cart:tambahkan_ke_keranjang' produk.id %}" method="post">
+          {% csrf_token %}
           <span class="input-group shopping-cart">
-            <input type="number" value="1"
-            class="form-control text-center px-3">
+            {{ barang.form_perbaharui_kuantitas.kuantitas }}
+            {% comment %} <input type="number" value="1"
+            class="form-control text-center px-3"> {% endcomment %}
             <input type="hidden" name="timpa_kuantitas" value="True">
             <div class="input-group-append">
               <button class="btn text-white" type="submit" 
@@ -77,7 +79,8 @@
       </div>
       <div class="cart-item col-12 col-lg-1 
       text-right align-self-center">
-        <form>
+        <form action="{% url 'cart:kurangi_dari_keranjang' produk.id %}" method="post">
+          {% csrf_token %}
           <button class="btn" type='submit' data-toggle='tooltip'
           data-palcement='top' title='Hapus'>
             <i class="fas fa-trash-alt"></i>
@@ -99,7 +102,7 @@
       <div class="col-5 col-lg-9 text-right text-grey">
         Harga Total:
       </div>
-      <div class="col-5 col-lg-2 text-right text-grey">
+      <div class="col-5 col-lg-2 text-right text-danger">
         Rp {{ total_harga_keranjang }}
       </div>
       <div class="col-2 col-lg-1">
@@ -109,9 +112,11 @@
 </div>
 <div class="col-lg-10 mx-auto mb-5">
   <div class="row justify-content-end">
+    {% if keranjang|length > 0 %}
     <div class="col-lg-6 px-0">
       <div class="btn-froup d-flex">
-        <a href='' class="btn btn-warning shadow-custom col">
+        <a href="{% url 'listings:daftar_produk' %}" 
+        class="btn btn-warning shadow-custom col">
           Kembali ke toko
         </a>
         <a href='' class="btn btn-danger shadow-custom col">
@@ -119,6 +124,16 @@
         </a>
       </div>
     </div>
+    {% else %}
+    <div class="col-lg-3 px-0">
+      <div class="btn-froup d-flex">
+        <a href="{% url 'listings:daftar_produk' %}" 
+        class="btn btn-warning shadow-custom col">
+          Kembali ke toko
+        </a>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </div>
 {% endblock content %}

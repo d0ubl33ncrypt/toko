@@ -48,8 +48,14 @@ def detail_keranjang(request):
     for produk in produks:
         barang_di_keranjang = keranjang_sementara[str(produk.id)]
         barang_di_keranjang['produk'] = produk
-        barang_di_keranjang['harga_total'] = (Decimal(barang_di_keranjang['harga']*barang_di_keranjang['kuantitas']))
-        
+        barang_di_keranjang['harga_total'] = (Decimal(
+            barang_di_keranjang['harga'])*barang_di_keranjang['kuantitas'])
+        barang_di_keranjang['form_perbaharui_kuantitas'] = FormTambahProdukKeKeranjang(
+            initial={
+                'kuantitas' : barang_di_keranjang['kuantitas']
+            }
+        )
+
     total_harga_keranjang = sum(Decimal(barang['harga']) * barang['kuantitas'] for barang in keranjang_sementara.values())
     
     return render(request,'detail.html',{
