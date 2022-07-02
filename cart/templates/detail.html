@@ -3,7 +3,7 @@
 {% block title %}Keranjang Belanja{% endblock title %}
 
 {% block content %}
-<div class="card shadow-custom border-0 col-lg-10 mx-auto mb-3">
+<div class="card shadow-custom border-0 col-lg-12 mx-auto mb-3">
   <h3 class="py-2 font-weight-bold text-grey text-center">
     Pesanan Anda:
   </h3>
@@ -19,9 +19,6 @@
     </div>
     <div class="col-lg-1 align-self-center">
       Harga
-    </div>
-    <div class="col-lg-2 align-self-center">
-      Produk
     </div>
     <div class="col-lg-2 align-self-center">
       kuantitas
@@ -103,7 +100,7 @@
         Harga Total:
       </div>
       <div class="col-5 col-lg-2 text-right text-grey">
-        Rp {{ 'total_harga_keranjang' }}
+        Rp {{ total_harga_keranjang }}
       </div>
       <div class="col-2 col-lg-1">
       </div>
@@ -114,11 +111,11 @@
   <div class="row justify-content-end">
     <div class="col-lg-6 px-0">
       <div class="btn-froup d-flex">
-        <a href="{% url 'listings:faftar_produk' %} " class="btn btn-warning shadow-custom col">
+        <a href='' class="btn btn-warning shadow-custom col">
           Kembali ke toko
         </a>
-        <a href="" class="btn btn-danger shadow-custom col">
-          Checkout
+        <a href='' class="btn btn-danger shadow-custom col">
+          Check out
         </a>
       </div>
     </div>

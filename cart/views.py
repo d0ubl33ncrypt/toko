@@ -1,21 +1,21 @@
 from django.conf import settings
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from listings.models import Produk
 from .forms import FormTambahProdukKeKeranjang
 from decimal import Decimal
 
 
 # Create your views here.
-
 def ambil_keranjang(request):
     keranjang = request.session.get(settings.CART_ID)
     if not keranjang:
-        keranjang = request.session[(settings.CART_ID)]={}
+        keranjang = request.session[settings.CART_ID]={}
+    
     return keranjang
 
 def tambahkan_ke_keranjang(request, produk_id):
     keranjang = ambil_keranjang(request)
-    produk = get_list_or_404(Produk,id=produk_id)
+    produk = get_object_or_404(Produk,id=produk_id)
     produk_id = str(produk_id)
     form = FormTambahProdukKeKeranjang(request.POST)
 
@@ -24,17 +24,19 @@ def tambahkan_ke_keranjang(request, produk_id):
 
         if produk_id not in keranjang:
             keranjang[produk_id] = {
-                'kuantitas' :0,
+                'kuantitas' : 0,
                 'harga': str(produk.harga)
             }
+
         if request.POST.get('timpa_kuantitas'):
             keranjang[produk_id]['kuantitas'] = cd['kuantitas']
+
         else:
             keranjang[produk_id]['kuantitas'] += cd['kuantitas']
         
         request.session.modified = True
 
-    return redirect('cart:detail_keranjang')
+        return redirect('cart:detail_keranjang')
 
 
 def detail_keranjang(request):

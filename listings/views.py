@@ -7,8 +7,6 @@ from cart.forms import FormTambahProdukKeKeranjang
 def daftar_produk(request,kategori_slug=None):
     kategoris = Kategori.objects.all()
     
-
-
     if kategori_slug:
         '''
         membuat filter pilihan variabel yang diminta untuk ditampilkan
@@ -22,7 +20,8 @@ def daftar_produk(request,kategori_slug=None):
 
 
     return render(
-        request, 'produk/daftar.html',{
+        request, 'produk/daftar.html',
+        {
             'kategoris':kategoris,
             'kategori_diminta' : kategori_diminta,
             'produks': produks
@@ -37,6 +36,7 @@ def detail_produk(request,kategori_slug,produk_slug):
         kategori_id = kategori.id,
         slug=produk_slug
     )
+
     if request.method == 'POST':
         form_ulasan = FormUlasan(request.POST)
 
@@ -51,16 +51,18 @@ def detail_produk(request,kategori_slug,produk_slug):
                 teks = cf['teks']
             )
 
-            return redirect(
-                'listings:detail_produk',
-                kategori_slug=kategori_slug,produk_slug=produk_slug)
+        return redirect(
+            'listings:detail_produk',
+            kategori_slug=kategori_slug,produk_slug=produk_slug)
 
     else:
         form_ulasan = FormUlasan()
         form_produk_keranjang = FormTambahProdukKeKeranjang()
 
-    return render(request,'produk/detail.html',{
-        'produk':produk,'form_ulasan': form_ulasan,
-        'form_produk_keranjang':form_produk_keranjang}
-        )
+        return render(request,'produk/detail.html',
+        {
+            'produk':produk,
+            'form_ulasan': form_ulasan,
+            'form_produk_keranjang':form_produk_keranjang
+        })
 
